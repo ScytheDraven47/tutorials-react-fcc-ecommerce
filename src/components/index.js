@@ -14,27 +14,27 @@ import Filters from './Filters'
 import ProductList from './ProductList'
 import Sort from './Sort'
 import Stars from './Stars'
-import CartContent from './CarContent'
+import CartContent from './CartContent'
 import PageHero from './PageHero'
 import StripeCheckout from './StripeCheckout'
 export {
-  FeaturedProducts,
-  Navbar,
-  CartButtons,
-  Footer,
-  Sidebar,
-  Hero,
-  Services,
-  Contact,
-  Loading,
-  Error,
-  ProductImages,
-  AddToCart,
-  Filters,
-  ProductList,
-  Sort,
-  Stars,
-  CartContent,
-  PageHero,
-  StripeCheckout,
+	FeaturedProducts,
+	Navbar,
+	CartButtons,
+	Footer,
+	Sidebar,
+	Hero,
+	Services,
+	Contact,
+	Loading,
+	Error,
+	ProductImages,
+	AddToCart,
+	Filters,
+	ProductList,
+	Sort,
+	Stars,
+	CartContent,
+	PageHero,
+	StripeCheckout,
 }
