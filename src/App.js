@@ -30,7 +30,7 @@ function App() {
 				<Route exact path='/products'>
 					<Products />
 				</Route>
-				<Route exact path='/product/:id'>
+				<Route exact path='/products/:id'>
 					<Product />
 				</Route>
 				<Route exact path='/checkout'>

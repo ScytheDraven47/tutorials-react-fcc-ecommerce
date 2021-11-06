@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { useProductsContext } from '../context/products_context'
-import { product_url as url } from '../utils/constants'
+import { product_url } from '../utils/constants'
 import { formatPrice } from '../utils/helpers'
 import {
 	Loading,
@@ -15,7 +15,49 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
 const ProductPage = () => {
-	return <h4>single product page</h4>
+	const { id } = useParams()
+	const history = useHistory()
+	const {
+		product_loading: isLoading,
+		product_error: isError,
+		product,
+		fetchProduct,
+	} = useProductsContext()
+
+	useEffect(() => {
+		fetchProduct(`${product_url}${id}`)
+	}, [])
+
+	useEffect(() => {
+		let errorTimeout
+		if (isError) {
+			errorTimeout = setTimeout(() => {
+				history.push('/')
+			}, 3000)
+		}
+		return () => clearTimeout(errorTimeout)
+	}, [isError])
+
+	if (isLoading) return <Loading />
+	if (isError) return <Error />
+
+	const {
+		name,
+		price,
+		description,
+		stock,
+		stars,
+		reviews,
+		id: sku,
+		company,
+		images,
+	} = product
+
+	return (
+		<Wrapper>
+			<PageHero title={name} />
+		</Wrapper>
+	)
 }
 
 const Wrapper = styled.main`
