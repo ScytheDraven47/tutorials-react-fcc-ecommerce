@@ -9,7 +9,7 @@ import {
 	Home,
 	PrivateRoute,
 	Products,
-	SingleProduct,
+	Product,
 } from './pages'
 
 function App() {
@@ -31,7 +31,7 @@ function App() {
 					<Products />
 				</Route>
 				<Route exact path='/product/:id'>
-					<SingleProduct />
+					<Product />
 				</Route>
 				<Route exact path='/checkout'>
 					<Checkout />
