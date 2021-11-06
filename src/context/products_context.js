@@ -8,9 +8,9 @@ import {
 	GET_PRODUCTS_BEGIN,
 	GET_PRODUCTS_SUCCESS,
 	GET_PRODUCTS_ERROR,
-	GET_SINGLE_PRODUCT_BEGIN,
-	GET_SINGLE_PRODUCT_SUCCESS,
-	GET_SINGLE_PRODUCT_ERROR,
+	GET_PRODUCT_BEGIN,
+	GET_PRODUCT_SUCCESS,
+	GET_PRODUCT_ERROR,
 } from '../actions'
 
 const initialState = {
@@ -50,13 +50,25 @@ export const ProductsProvider = ({ children }) => {
 			})
 	}
 
+	const fetchProduct = (url) => {
+		dispatch({ type: GET_PRODUCT_BEGIN })
+		axios
+			.get(url)
+			.then((response) => {
+				dispatch({ type: GET_PRODUCT_SUCCESS, payload: response.data })
+			})
+			.catch(() => {
+				dispatch({ type: GET_PRODUCT_ERROR })
+			})
+	}
+
 	useEffect(() => {
 		fetchProducts(products_url)
 	}, [])
 
 	return (
 		<ProductsContext.Provider
-			value={{ ...state, openSidebar, closeSidebar }}
+			value={{ ...state, openSidebar, closeSidebar, fetchProduct }}
 		>
 			{children}
 		</ProductsContext.Provider>
