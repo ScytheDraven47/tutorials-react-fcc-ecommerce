@@ -52,10 +52,46 @@ const ProductPage = () => {
 		company,
 		images,
 	} = product
+	const hasStock = stock > 0
+	const isLowStock = hasStock && stock < 5
 
 	return (
 		<Wrapper>
-			<PageHero title={name} />
+			<PageHero title={name} product />
+			<div className='section section-center page'>
+				<Link to='products' className='btn'>
+					back to products
+				</Link>
+				<div className='product-center'>
+					<ProductImages images={images} />
+					<section className='content'>
+						<h2>{name}</h2>
+						<Stars stars={stars} />
+						<h5 className='price'>{formatPrice(price)}</h5>
+						<p className='desc'>{description}</p>
+						<p className='info'>
+							<span>Available: </span>
+							{isLowStock ? (
+								<span className='danger'>LOW STOCK!</span>
+							) : hasStock ? (
+								'in stock'
+							) : (
+								'out of stock'
+							)}
+						</p>
+						<p className='info'>
+							<span>Brand: </span>
+							{company}
+						</p>
+						<p className='info'>
+							<span>SKU: </span>
+							{sku}
+						</p>
+						<hr />
+						{hasStock && <AddToCart />}
+					</section>
+				</div>
+			</div>
 		</Wrapper>
 	)
 }
@@ -80,6 +116,9 @@ const Wrapper = styled.main`
 		grid-template-columns: 125px 1fr;
 		span {
 			font-weight: 700;
+		}
+		.danger {
+			color: firebrick;
 		}
 	}
 
