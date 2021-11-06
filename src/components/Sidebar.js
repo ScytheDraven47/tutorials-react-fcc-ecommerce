@@ -9,34 +9,33 @@ import CartButtons from './CartButtons'
 import { useUserContext } from '../context/user_context'
 
 const Sidebar = () => {
-	const [isOpen, setIsOpen] = React.useState(window.innerWidth < 992)
-
-	const handleResize = () => {
-		setIsOpen(window.innerWidth < 992)
-	}
-
-	React.useEffect(() => {
-		window.addEventListener('resize', handleResize)
-		return () => window.removeEventListener('resize', handleResize)
-	}, [])
+	const { isSidebarOpen, closeSidebar } = useProductsContext()
 
 	return (
 		<SidebarContainer>
-			<aside className={`sidebar ${isOpen ? 'show-sidebar' : ''}`}>
+			<aside className={`sidebar ${isSidebarOpen ? 'show-sidebar' : ''}`}>
 				<div className='sidebar-header'>
 					<img src={logo} alt='ComfySloth logo' className='logo' />
-					<button type='button' className='close-btn'>
+					<button
+						type='button'
+						className='close-btn'
+						onClick={closeSidebar}
+					>
 						<FaTimes />
 					</button>
 				</div>
 				<ul className='links'>
 					{links.map(({ id, url, text }) => (
 						<li key={id}>
-							<Link to={url}>{text}</Link>
+							<Link to={url} onClick={closeSidebar}>
+								{text}
+							</Link>
 						</li>
 					))}
 					<li>
-						<Link to='/checkout'>checkout</Link>
+						<Link to='/checkout' onClick={closeSidebar}>
+							checkout
+						</Link>
 					</li>
 				</ul>
 				<CartButtons />
