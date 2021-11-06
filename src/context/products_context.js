@@ -45,7 +45,7 @@ export const ProductsProvider = ({ children }) => {
 			.then((response) => {
 				dispatch({ type: GET_PRODUCTS_SUCCESS, payload: response.data })
 			})
-			.catch((error) => {
+			.catch(() => {
 				dispatch({ type: GET_PRODUCTS_ERROR })
 			})
 	}
