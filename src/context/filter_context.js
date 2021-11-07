@@ -11,10 +11,12 @@ import {
 	CLEAR_FILTERS,
 } from '../actions'
 import { useProductsContext } from './products_context'
+import { VIEW_TYPES } from '../utils/constants'
 
 const initialState = {
 	filtered_products: [],
 	all_products: [],
+	view_type: VIEW_TYPES.GRID,
 }
 
 const FilterContext = React.createContext()

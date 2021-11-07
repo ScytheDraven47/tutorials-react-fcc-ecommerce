@@ -42,3 +42,8 @@ export const services = [
 export const products_url = 'https://course-api.com/react-store-products'
 
 export const product_url = `https://course-api.com/react-store-single-product?id=`
+
+export const VIEW_TYPES = {
+	GRID: 'GRID',
+	LIST: 'LIST',
+}
