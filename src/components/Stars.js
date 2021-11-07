@@ -10,7 +10,7 @@ const Stars = ({ stars, reviews }) => {
 			<span key={index}>
 				{fullStar ? (
 					<BsStarFill />
-				) : halfStar + 0.5 ? (
+				) : halfStar ? (
 					<BsStarHalf />
 				) : (
 					<BsStar />
