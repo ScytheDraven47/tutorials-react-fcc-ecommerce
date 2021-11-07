@@ -8,6 +8,7 @@ import {
 	FILTER_PRODUCTS,
 	CLEAR_FILTERS,
 } from '../actions'
+import { VIEW_TYPES } from '../utils/constants'
 
 const filter_reducer = (state, action) => {
 	switch (action.type) {
@@ -22,6 +23,10 @@ const filter_reducer = (state, action) => {
 				...state,
 				filtered_products: [...state.all_products],
 			}
+		case SET_GRIDVIEW:
+			return { ...state, view_type: VIEW_TYPES.GRID }
+		case SET_LISTVIEW:
+			return { ...state, view_type: VIEW_TYPES.LIST }
 		default:
 			throw new Error(`No Matching "${action.type}" - action type`)
 	}
