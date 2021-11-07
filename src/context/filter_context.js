@@ -11,12 +11,13 @@ import {
 	CLEAR_FILTERS,
 } from '../actions'
 import { useProductsContext } from './products_context'
-import { VIEW_TYPES } from '../utils/constants'
+import { VIEW_TYPES, SORT_TYPES } from '../utils/constants'
 
 const initialState = {
 	filtered_products: [],
 	all_products: [],
 	view_type: VIEW_TYPES.GRID,
+	sort_type: SORT_TYPES.find((sort_type) => sort_type.default),
 }
 
 const FilterContext = React.createContext()
@@ -36,8 +37,14 @@ export const FilterProvider = ({ children }) => {
 		dispatch({ type: SET_LISTVIEW })
 	}
 
+	const updateSortType = (e) => {
+		dispatch({ type: UPDATE_SORT, payload: e.target.value })
+	}
+
 	return (
-		<FilterContext.Provider value={{ ...state, setGridView, setListView }}>
+		<FilterContext.Provider
+			value={{ ...state, setGridView, setListView, updateSortType }}
+		>
 			{children}
 		</FilterContext.Provider>
 	)

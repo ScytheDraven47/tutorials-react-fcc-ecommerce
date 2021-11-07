@@ -8,7 +8,7 @@ import {
 	FILTER_PRODUCTS,
 	CLEAR_FILTERS,
 } from '../actions'
-import { VIEW_TYPES } from '../utils/constants'
+import { VIEW_TYPES, SORT_TYPES } from '../utils/constants'
 
 const filter_reducer = (state, action) => {
 	switch (action.type) {
@@ -27,6 +27,14 @@ const filter_reducer = (state, action) => {
 			return { ...state, view_type: VIEW_TYPES.GRID }
 		case SET_LISTVIEW:
 			return { ...state, view_type: VIEW_TYPES.LIST }
+		case UPDATE_SORT:
+			console.log(action.payload)
+			return {
+				...state,
+				sort_type: SORT_TYPES.find(
+					(sort_type) => sort_type.key === action.payload
+				),
+			}
 		default:
 			throw new Error(`No Matching "${action.type}" - action type`)
 	}

@@ -2,13 +2,16 @@ import React from 'react'
 import { useFilterContext } from '../context/filter_context'
 import { BsFillGridFill, BsList } from 'react-icons/bs'
 import styled from 'styled-components'
-import { VIEW_TYPES } from '../utils/constants'
+import { VIEW_TYPES, SORT_TYPES } from '../utils/constants'
+
 const Sort = () => {
 	const {
 		filtered_products: products,
 		view_type,
+		sort_type,
 		setGridView,
 		setListView,
+		updateSortType,
 	} = useFilterContext()
 
 	return (
@@ -33,11 +36,22 @@ const Sort = () => {
 			<hr />
 			<form>
 				<label htmlFor='sort'>sort by</label>
-				<select name='sort' id='sort' className='sort-input'>
-					<option value='price-asc'>price (lowest)</option>
+				<select
+					name='sort'
+					id='sort'
+					className='sort-input'
+					value={sort_type.key}
+					onChange={updateSortType}
+				>
+					{SORT_TYPES.map((type, index) => (
+						<option key={index} value={type.key}>
+							{type.label}
+						</option>
+					))}
+					{/* <option value='price-asc'>price (lowest)</option>
 					<option value='price-desc'>price (highest)</option>
 					<option value='name-asc'>name (a-z)</option>
-					<option value='name-desc'>name (z-a)</option>
+					<option value='name-desc'>name (z-a)</option> */}
 				</select>
 			</form>
 		</Wrapper>

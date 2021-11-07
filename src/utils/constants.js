@@ -47,3 +47,11 @@ export const VIEW_TYPES = {
 	GRID: 'GRID',
 	LIST: 'LIST',
 }
+
+export const SORT_TYPES = [
+	{ key: 'FEATURED', label: 'Featured', default: true },
+	{ key: 'PRICE_ASC', label: 'Price (Lowest)' },
+	{ key: 'PRICE_DESC', label: 'Price (Highest)' },
+	{ key: 'NAME_ASC', label: 'Name (A-Z)' },
+	{ key: 'NAME_DESC', label: 'Name (Z-A)' },
+]
