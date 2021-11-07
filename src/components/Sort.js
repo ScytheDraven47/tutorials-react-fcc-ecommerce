@@ -43,9 +43,9 @@ const Sort = () => {
 					value={sort_type.key}
 					onChange={updateSortType}
 				>
-					{SORT_TYPES.map((type, index) => (
-						<option key={index} value={type.key}>
-							{type.label}
+					{SORT_TYPES.map((sort_type, index) => (
+						<option key={index} value={sort_type.key}>
+							{sort_type.label}
 						</option>
 					))}
 					{/* <option value='price-asc'>price (lowest)</option>
