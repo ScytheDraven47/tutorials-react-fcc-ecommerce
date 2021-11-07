@@ -88,7 +88,7 @@ const ProductPage = () => {
 							{sku}
 						</p>
 						<hr />
-						{hasStock && <AddToCart />}
+						{hasStock && <AddToCart product={product} />}
 					</section>
 				</div>
 			</div>
