@@ -28,12 +28,52 @@ const filter_reducer = (state, action) => {
 		case SET_LISTVIEW:
 			return { ...state, view_type: VIEW_TYPES.LIST }
 		case UPDATE_SORT:
-			console.log(action.payload)
 			return {
 				...state,
 				sort_type: SORT_TYPES.find(
 					(sort_type) => sort_type.key === action.payload
 				),
+			}
+		case SORT_PRODUCTS:
+			const { sort_type, filtered_products } = state
+			switch (sort_type.key) {
+				case 'price_asc':
+					return {
+						...state,
+						filtered_products: [...filtered_products].sort(
+							(a, b) => a.price - b.price
+						),
+					}
+				case 'featured':
+					return {
+						...state,
+						filtered_products: [...filtered_products].sort((a, b) =>
+							a.featured ? -1 : b.featured ? 1 : 0
+						),
+					}
+				case 'price_desc':
+					return {
+						...state,
+						filtered_products: [...filtered_products].sort(
+							(a, b) => b.price - a.price
+						),
+					}
+				case 'name_asc':
+					return {
+						...state,
+						filtered_products: [...filtered_products].sort((a, b) =>
+							a.name.localeCompare(b.name)
+						),
+					}
+				case 'name_desc':
+					return {
+						...state,
+						filtered_products: [...filtered_products].sort((a, b) =>
+							b.name.localeCompare(a.name)
+						),
+					}
+				default:
+					return { ...state }
 			}
 		default:
 			throw new Error(`No Matching "${action.type}" - action type`)

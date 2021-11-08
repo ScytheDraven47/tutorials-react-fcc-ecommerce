@@ -30,6 +30,10 @@ export const FilterProvider = ({ children }) => {
 		dispatch({ type: LOAD_PRODUCTS, payload: products })
 	}, [products])
 
+	useEffect(() => {
+		dispatch({ type: SORT_PRODUCTS })
+	}, [products, state.sort_type])
+
 	const setGridView = () => {
 		dispatch({ type: SET_GRIDVIEW })
 	}

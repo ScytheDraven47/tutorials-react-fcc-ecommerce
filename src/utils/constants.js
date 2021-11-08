@@ -49,9 +49,9 @@ export const VIEW_TYPES = {
 }
 
 export const SORT_TYPES = [
-	{ key: 'FEATURED', label: 'Featured', default: true },
-	{ key: 'PRICE_ASC', label: 'Price (Lowest)' },
-	{ key: 'PRICE_DESC', label: 'Price (Highest)' },
-	{ key: 'NAME_ASC', label: 'Name (A-Z)' },
-	{ key: 'NAME_DESC', label: 'Name (Z-A)' },
+	{ key: 'featured', label: 'Featured', default: true },
+	{ key: 'price_asc', label: 'Price (Lowest)' },
+	{ key: 'price_desc', label: 'Price (Highest)' },
+	{ key: 'name_asc', label: 'Name (A-Z)' },
+	{ key: 'name_desc', label: 'Name (Z-A)' },
 ]
