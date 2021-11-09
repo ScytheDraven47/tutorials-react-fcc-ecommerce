@@ -43,7 +43,7 @@ const Filters = () => {
 					{/* end search input */}
 					{/* categories */}
 					<div className='form-control'>
-						<h5>Categories</h5>
+						<h5>Category</h5>
 						{categories.map((c, i) => {
 							return (
 								<button
@@ -59,15 +59,28 @@ const Filters = () => {
 								</button>
 							)
 						})}
-						{/* <select name='category' multiple>
-							{categories.map((category, index) => (
-								<option key={index} value={category}>
-									{category}
-								</option>
-							))}
-						</select> */}
 					</div>
 					{/* end categories */}
+					{/* companies */}
+					<div className='form-control'>
+						<h5>Company</h5>
+						{companies.map((c, i) => {
+							return (
+								<button
+									key={i}
+									name='company'
+									onClick={updateFilters}
+									value={c}
+									className={
+										company.indexOf(c) >= 0 ? 'active' : ''
+									}
+								>
+									{c}
+								</button>
+							)
+						})}
+					</div>
+					{/* end companies */}
 				</form>
 			</div>
 		</Wrapper>
