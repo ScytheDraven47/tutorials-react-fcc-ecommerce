@@ -9,11 +9,8 @@ const Filters = () => {
 		filters: {
 			text,
 			category,
-			categories,
 			company,
-			companies,
 			color,
-			colors,
 			min_price,
 			price,
 			max_price,
@@ -23,6 +20,10 @@ const Filters = () => {
 		clearFilters,
 		all_products,
 	} = useFilterContext()
+
+	const companies = getUniqueValues(all_products, 'company')
+	const categories = getUniqueValues(all_products, 'category')
+	const colors = getUniqueValues(all_products, 'colors')
 
 	return (
 		<Wrapper>
@@ -40,6 +41,33 @@ const Filters = () => {
 						/>
 					</div>
 					{/* end search input */}
+					{/* categories */}
+					<div className='form-control'>
+						<h5>Categories</h5>
+						{categories.map((c, i) => {
+							return (
+								<button
+									key={i}
+									name='category'
+									onClick={updateFilters}
+									value={c}
+									className={
+										category.indexOf(c) >= 0 ? 'active' : ''
+									}
+								>
+									{c}
+								</button>
+							)
+						})}
+						{/* <select name='category' multiple>
+							{categories.map((category, index) => (
+								<option key={index} value={category}>
+									{category}
+								</option>
+							))}
+						</select> */}
+					</div>
+					{/* end categories */}
 				</form>
 			</div>
 		</Wrapper>

@@ -25,17 +25,6 @@ const filter_reducer = (state, action) => {
 					min_price: Math.min(...prices),
 					price: max_price,
 					max_price,
-					companies: [
-						...new Set(action.payload.map((item) => item.company)),
-					],
-					categories: [
-						...new Set(action.payload.map((item) => item.category)),
-					],
-					colors: [
-						...new Set(
-							action.payload.map((item) => item.colors).flat()
-						),
-					],
 				},
 			}
 		case CLEAR_FILTERS:
@@ -101,19 +90,30 @@ const filter_reducer = (state, action) => {
 				...state,
 				filters: {
 					...state.filters,
-					[name]: value,
+					[name]: !Array.isArray(state.filters[name])
+						? value
+						: state.filters[name].indexOf(value) >= 0
+						? [...state.filters[name]].filter((n) => n !== value)
+						: [...state.filters[name], value],
 				},
 			}
 		case FILTER_PRODUCTS:
 			const {
-				filters: { text },
+				filters: { text, category: categories },
 				all_products: products_to_filter,
 			} = state
 
 			return {
 				...state,
 				filtered_products: [...products_to_filter].filter((product) => {
-					return product.name.includes(text)
+					const { name, category } = product
+					if (!name.includes(text)) return false
+					if (
+						categories.length > 0 &&
+						categories.indexOf(category) < 0
+					)
+						return false
+					return true
 				}),
 			}
 		default:
