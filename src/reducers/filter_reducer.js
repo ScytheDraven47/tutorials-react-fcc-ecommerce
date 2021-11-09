@@ -99,7 +99,7 @@ const filter_reducer = (state, action) => {
 			}
 		case FILTER_PRODUCTS:
 			const {
-				filters: { text, category: categories },
+				filters: { text: fName, category: fCategory },
 				all_products: products_to_filter,
 			} = state
 
@@ -107,11 +107,8 @@ const filter_reducer = (state, action) => {
 				...state,
 				filtered_products: [...products_to_filter].filter((product) => {
 					const { name, category } = product
-					if (!name.includes(text)) return false
-					if (
-						categories.length > 0 &&
-						categories.indexOf(category) < 0
-					)
+					if (!name.includes(fName)) return false
+					if (fCategory.length > 0 && fCategory.indexOf(category) < 0)
 						return false
 					return true
 				}),
