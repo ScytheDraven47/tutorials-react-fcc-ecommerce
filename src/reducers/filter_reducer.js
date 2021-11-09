@@ -7,16 +7,36 @@ import {
 	UPDATE_FILTERS,
 	FILTER_PRODUCTS,
 	CLEAR_FILTERS,
+	TOGGLE_CART_ITEM_AMOUNT,
 } from '../actions'
 import { VIEW_TYPES, SORT_TYPES } from '../utils/constants'
 
 const filter_reducer = (state, action) => {
 	switch (action.type) {
 		case LOAD_PRODUCTS:
+			let prices = action.payload.map((item) => item.price)
+			let max_price = Math.max(...prices)
 			return {
 				...state,
 				all_products: [...action.payload],
 				filtered_products: [...action.payload],
+				filters: {
+					...state.filters,
+					min_price: Math.min(...prices),
+					price: max_price,
+					max_price,
+					companies: [
+						...new Set(action.payload.map((item) => item.company)),
+					],
+					categories: [
+						...new Set(action.payload.map((item) => item.category)),
+					],
+					colors: [
+						...new Set(
+							action.payload.map((item) => item.colors).flat()
+						),
+					],
+				},
 			}
 		case CLEAR_FILTERS:
 			return {
@@ -35,45 +55,66 @@ const filter_reducer = (state, action) => {
 				),
 			}
 		case SORT_PRODUCTS:
-			const { sort_type, filtered_products } = state
+			const { sort_type, filtered_products: products_to_sort } = state
 			switch (sort_type.key) {
 				case 'price_asc':
 					return {
 						...state,
-						filtered_products: [...filtered_products].sort(
+						filtered_products: [...products_to_sort].sort(
 							(a, b) => a.price - b.price
 						),
 					}
 				case 'featured':
 					return {
 						...state,
-						filtered_products: [...filtered_products].sort((a, b) =>
+						filtered_products: [...products_to_sort].sort((a, b) =>
 							a.featured ? -1 : b.featured ? 1 : 0
 						),
 					}
 				case 'price_desc':
 					return {
 						...state,
-						filtered_products: [...filtered_products].sort(
+						filtered_products: [...products_to_sort].sort(
 							(a, b) => b.price - a.price
 						),
 					}
 				case 'name_asc':
 					return {
 						...state,
-						filtered_products: [...filtered_products].sort((a, b) =>
+						filtered_products: [...products_to_sort].sort((a, b) =>
 							a.name.localeCompare(b.name)
 						),
 					}
 				case 'name_desc':
 					return {
 						...state,
-						filtered_products: [...filtered_products].sort((a, b) =>
+						filtered_products: [...products_to_sort].sort((a, b) =>
 							b.name.localeCompare(a.name)
 						),
 					}
 				default:
 					return { ...state }
+			}
+		case UPDATE_FILTERS:
+			const { name, value } = action.payload
+			return {
+				...state,
+				filters: {
+					...state.filters,
+					[name]: value,
+				},
+			}
+		case FILTER_PRODUCTS:
+			const {
+				filters: { text },
+				all_products: products_to_filter,
+			} = state
+
+			return {
+				...state,
+				filtered_products: [...products_to_filter].filter((product) => {
+					return product.name.includes(text)
+				}),
 			}
 		default:
 			throw new Error(`No Matching "${action.type}" - action type`)
