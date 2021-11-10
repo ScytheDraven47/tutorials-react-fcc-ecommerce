@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { useFilterContext } from '../context/filter_context'
 import Filter from './Filter'
+import { useFilterContext } from '../context/filter_context'
 import { getUniqueValues, formatPrice } from '../utils/helpers'
-import { FaCheck, FaPlus, FaMinus } from 'react-icons/fa'
 
 const Filters = () => {
 	const {
@@ -21,8 +20,6 @@ const Filters = () => {
 		clearFilters,
 		all_products,
 	} = useFilterContext()
-	const [isCategoryVisible, setIsCategoryVisible] = useState(false)
-	const [isCompanyVisible, setIsCompanyVisible] = useState(false)
 
 	const companies = getUniqueValues(all_products, 'company')
 	const categories = getUniqueValues(all_products, 'category')
@@ -63,7 +60,36 @@ const Filters = () => {
 						className={'colors'}
 						textless
 					/>
+					<div className='form-control'>
+						<h5>price</h5>
+						<p className='price'>{formatPrice(price)}</p>
+						<input
+							type='range'
+							name='price'
+							min={min_price}
+							max={max_price}
+							value={price}
+							onChange={updateFilters}
+						/>
+					</div>
+					<div className='form-control shipping'>
+						<label htmlFor='shipping'>free shipping</label>
+						<input
+							type='checkbox'
+							name='shipping'
+							id='shipping'
+							onChange={updateFilters}
+							checked={shipping}
+						/>
+					</div>
 				</form>
+				<button
+					type='button'
+					className='clear-btn'
+					onClick={clearFilters}
+				>
+					clear filters
+				</button>
 			</div>
 		</Wrapper>
 	)
@@ -76,6 +102,12 @@ const Wrapper = styled.section`
 			margin-bottom: 0.5rem;
 		}
 	}
+	.form-control-label {
+		cursor: pointer;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
 	.search-input {
 		padding: 0.5rem;
 		background: var(--clr-grey-10);
@@ -86,6 +118,19 @@ const Wrapper = styled.section`
 	}
 	.search-input::placeholder {
 		text-transform: capitalize;
+	}
+
+	.hideable-container {
+		transition: all 0.25s ease-out;
+		transform-origin: top;
+		&.hide {
+			transform: scaleY(0);
+			max-height: 0;
+		}
+		&.show {
+			transform: scaleY(1);
+			max-height: 20rem;
+		}
 	}
 
 	button {
@@ -106,23 +151,31 @@ const Wrapper = styled.section`
 	.colors {
 		display: flex;
 		align-items: center;
-	}
-	.color-btn {
-		display: inline-block;
-		width: 1rem;
-		height: 1rem;
-		border-radius: 50%;
-		background: #222;
-		margin-right: 0.5rem;
-		border: none;
-		cursor: pointer;
-		opacity: 0.5;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		svg {
-			font-size: 0.5rem;
-			color: var(--clr-white);
+
+		button {
+			color: var(--clr-black);
+			display: inline-block;
+			width: 1rem;
+			height: 1rem;
+			border-radius: 50%;
+			background: #222;
+			margin-right: 0.5rem;
+			border: none;
+			box-shadow: 0px 0px 0rem 0.05rem currentColor;
+			cursor: pointer;
+			opacity: 0.5;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			svg {
+				pointer-events: none;
+				font-size: 0.5rem;
+				color: currentColor;
+			}
+		}
+		.active {
+			opacity: 1;
+			box-shadow: 0px 0px 0.1rem 0.05rem currentColor;
 		}
 	}
 	.all-btn {

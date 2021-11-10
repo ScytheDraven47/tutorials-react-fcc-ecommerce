@@ -30,7 +30,15 @@ const filter_reducer = (state, action) => {
 		case CLEAR_FILTERS:
 			return {
 				...state,
-				filtered_products: [...state.all_products],
+				filters: {
+					...state.filters,
+					text: '',
+					company: [],
+					category: [],
+					color: [],
+					price: state.filters.max_price,
+					shipping: false,
+				},
 			}
 		case SET_GRIDVIEW:
 			return { ...state, view_type: VIEW_TYPES.GRID }
@@ -85,19 +93,29 @@ const filter_reducer = (state, action) => {
 					return { ...state }
 			}
 		case UPDATE_FILTERS:
-			const {
-				name,
-				dataset: { value },
-			} = action.payload
+			const { name, value, dataset, checked } = action.payload
+
+			let val = value
+			if (dataset.value != null) val = dataset.value
+			if (checked != null && value === 'on') val = checked
+
+			let newValue
+			if (Array.isArray(state.filters[name])) {
+				newValue =
+					state.filters[name].indexOf(val) >= 0
+						? [...state.filters[name]].filter((n) => n !== val)
+						: [...state.filters[name], val]
+			} else if (typeof state.filters[name] === 'number') {
+				newValue = parseInt(val)
+			} else {
+				newValue = val
+			}
+
 			return {
 				...state,
 				filters: {
 					...state.filters,
-					[name]: !Array.isArray(state.filters[name])
-						? value
-						: state.filters[name].indexOf(value) >= 0
-						? [...state.filters[name]].filter((n) => n !== value)
-						: [...state.filters[name], value],
+					[name]: newValue,
 				},
 			}
 		case FILTER_PRODUCTS:
@@ -107,6 +125,8 @@ const filter_reducer = (state, action) => {
 					category: fCategory,
 					company: fCompany,
 					color: fColor,
+					price: fPrice,
+					shipping: fShipping,
 				},
 				all_products: products_to_filter,
 			} = state
@@ -114,22 +134,20 @@ const filter_reducer = (state, action) => {
 			return {
 				...state,
 				filtered_products: [...products_to_filter].filter((product) => {
-					const { name, category, company, colors } = product
+					const { name, category, company, colors, price, shipping } =
+						product
 					if (!name.includes(fName)) return false
 					if (fCategory.length > 0 && fCategory.indexOf(category) < 0)
 						return false
 					if (fCompany.length > 0 && fCompany.indexOf(company) < 0)
 						return false
-					console.log(
-						colors,
-						fColor,
-						colors.every((c) => fColor.indexOf(c) < 0)
-					)
 					if (
 						fColor.length > 0 &&
 						colors.every((c) => fColor.indexOf(c) < 0)
 					)
 						return false
+					if (price > fPrice) return false
+					if (fShipping && !shipping) return false
 					return true
 				}),
 			}
