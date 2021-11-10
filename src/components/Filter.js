@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useFilterContext } from '../context/filter_context'
-import { FaPlus, FaMinus } from 'react-icons/fa'
+import { FaCheck, FaPlus, FaMinus } from 'react-icons/fa'
 
-const Filter = ({ name, objects, currentObject }) => {
+const Filter = ({ name, objects, currentObject, className, textless }) => {
 	const { updateFilters } = useFilterContext()
 
 	const [isVisible, setIsVisible] = useState()
@@ -21,24 +21,23 @@ const Filter = ({ name, objects, currentObject }) => {
 					</button>
 				</label>
 				<div
-					className={`hideable-container ${
+					className={`${className} hideable-container ${
 						isVisible ? 'show' : 'hide'
 					}`}
 				>
 					{objects.map((o, i) => {
+						const isActive = currentObject.indexOf(o) >= 0
 						return (
 							<button
 								key={i}
 								name={name}
 								onClick={updateFilters}
-								value={o}
-								className={
-									currentObject.indexOf(o) >= 0
-										? 'active'
-										: ''
-								}
+								data-value={o}
+								style={textless ? { background: o } : {}}
+								className={isActive ? 'active' : ''}
 							>
-								{o}
+								{!textless && o}
+								{textless && isActive && <FaCheck />}
 							</button>
 						)
 					})}
@@ -56,6 +55,7 @@ const Wrapper = styled.section`
 		}
 	}
 	.form-control-label {
+		cursor: pointer;
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
@@ -92,23 +92,31 @@ const Wrapper = styled.section`
 	.colors {
 		display: flex;
 		align-items: center;
-	}
-	.color-btn {
-		display: inline-block;
-		width: 1rem;
-		height: 1rem;
-		border-radius: 50%;
-		background: #222;
-		margin-right: 0.5rem;
-		border: none;
-		cursor: pointer;
-		opacity: 0.5;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		svg {
-			font-size: 0.5rem;
-			color: var(--clr-white);
+
+		button {
+			color: var(--clr-black);
+			display: inline-block;
+			width: 1rem;
+			height: 1rem;
+			border-radius: 50%;
+			background: #222;
+			margin-right: 0.5rem;
+			border: none;
+			box-shadow: 0px 0px 0rem 0.05rem currentColor;
+			cursor: pointer;
+			opacity: 0.5;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			svg {
+				pointer-events: none;
+				font-size: 0.5rem;
+				color: currentColor;
+			}
+		}
+		.active {
+			opacity: 1;
+			box-shadow: 0px 0px 0.1rem 0.05rem currentColor;
 		}
 	}
 `

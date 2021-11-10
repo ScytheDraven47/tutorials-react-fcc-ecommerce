@@ -85,7 +85,10 @@ const filter_reducer = (state, action) => {
 					return { ...state }
 			}
 		case UPDATE_FILTERS:
-			const { name, value } = action.payload
+			const {
+				name,
+				dataset: { value },
+			} = action.payload
 			return {
 				...state,
 				filters: {
@@ -103,6 +106,7 @@ const filter_reducer = (state, action) => {
 					text: fName,
 					category: fCategory,
 					company: fCompany,
+					color: fColor,
 				},
 				all_products: products_to_filter,
 			} = state
@@ -110,11 +114,21 @@ const filter_reducer = (state, action) => {
 			return {
 				...state,
 				filtered_products: [...products_to_filter].filter((product) => {
-					const { name, category, company } = product
+					const { name, category, company, colors } = product
 					if (!name.includes(fName)) return false
 					if (fCategory.length > 0 && fCategory.indexOf(category) < 0)
 						return false
 					if (fCompany.length > 0 && fCompany.indexOf(company) < 0)
+						return false
+					console.log(
+						colors,
+						fColor,
+						colors.every((c) => fColor.indexOf(c) < 0)
+					)
+					if (
+						fColor.length > 0 &&
+						colors.every((c) => fColor.indexOf(c) < 0)
+					)
 						return false
 					return true
 				}),

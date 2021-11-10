@@ -48,11 +48,20 @@ const Filters = () => {
 						name={'category'}
 						objects={categories}
 						currentObject={category}
+						className={'categories'}
 					/>
 					<Filter
 						name={'company'}
 						objects={companies}
 						currentObject={company}
+						className={'companies'}
+					/>
+					<Filter
+						name={'color'}
+						objects={colors}
+						currentObject={color}
+						className={'colors'}
+						textless
 					/>
 				</form>
 			</div>
