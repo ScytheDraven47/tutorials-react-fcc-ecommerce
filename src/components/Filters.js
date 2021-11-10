@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useFilterContext } from '../context/filter_context'
+import Filter from './Filter'
 import { getUniqueValues, formatPrice } from '../utils/helpers'
-import { FaCheck } from 'react-icons/fa'
+import { FaCheck, FaPlus, FaMinus } from 'react-icons/fa'
 
 const Filters = () => {
 	const {
@@ -20,6 +21,8 @@ const Filters = () => {
 		clearFilters,
 		all_products,
 	} = useFilterContext()
+	const [isCategoryVisible, setIsCategoryVisible] = useState(false)
+	const [isCompanyVisible, setIsCompanyVisible] = useState(false)
 
 	const companies = getUniqueValues(all_products, 'company')
 	const categories = getUniqueValues(all_products, 'category')
@@ -41,46 +44,16 @@ const Filters = () => {
 						/>
 					</div>
 					{/* end search input */}
-					{/* categories */}
-					<div className='form-control'>
-						<h5>Category</h5>
-						{categories.map((c, i) => {
-							return (
-								<button
-									key={i}
-									name='category'
-									onClick={updateFilters}
-									value={c}
-									className={
-										category.indexOf(c) >= 0 ? 'active' : ''
-									}
-								>
-									{c}
-								</button>
-							)
-						})}
-					</div>
-					{/* end categories */}
-					{/* companies */}
-					<div className='form-control'>
-						<h5>Company</h5>
-						{companies.map((c, i) => {
-							return (
-								<button
-									key={i}
-									name='company'
-									onClick={updateFilters}
-									value={c}
-									className={
-										company.indexOf(c) >= 0 ? 'active' : ''
-									}
-								>
-									{c}
-								</button>
-							)
-						})}
-					</div>
-					{/* end companies */}
+					<Filter
+						name={'category'}
+						objects={categories}
+						currentObject={category}
+					/>
+					<Filter
+						name={'company'}
+						objects={companies}
+						currentObject={company}
+					/>
 				</form>
 			</div>
 		</Wrapper>
@@ -120,12 +93,6 @@ const Wrapper = styled.section`
 	}
 	.active {
 		border-color: var(--clr-grey-5);
-	}
-	.company {
-		background: var(--clr-grey-10);
-		border-radius: var(--radius);
-		border-color: transparent;
-		padding: 0.25rem;
 	}
 	.colors {
 		display: flex;
