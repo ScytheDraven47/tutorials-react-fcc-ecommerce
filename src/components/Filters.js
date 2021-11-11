@@ -63,6 +63,7 @@ const Filters = () => {
 					<div className='form-control'>
 						<h5>price</h5>
 						<p className='price'>{formatPrice(price)}</p>
+						{/* TODO convert to editable content */}
 						<input
 							type='range'
 							name='price'
