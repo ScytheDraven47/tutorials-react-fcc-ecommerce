@@ -72,15 +72,18 @@ const Filters = () => {
 							onChange={updateFilters}
 						/>
 					</div>
-					<div className='form-control shipping'>
-						<label htmlFor='shipping'>free shipping</label>
-						<input
-							type='checkbox'
-							name='shipping'
-							id='shipping'
-							onChange={updateFilters}
-							checked={shipping}
-						/>
+					<div className='form-control'>
+						<label className='form-control-label shipping'>
+							<h5>free shipping</h5>
+							<input
+								type='checkbox'
+								name='shipping'
+								id='shipping'
+								onChange={updateFilters}
+								checked={shipping}
+							/>
+							<span className='checkbox'></span>
+						</label>
 					</div>
 				</form>
 				<button
@@ -178,6 +181,53 @@ const Wrapper = styled.section`
 			box-shadow: 0px 0px 0.1rem 0.05rem currentColor;
 		}
 	}
+
+	.shipping {
+		position: relative;
+
+		input {
+			position: absolute;
+			opacity: 0;
+			height: 0;
+			width: 0;
+
+			&:checked ~ .checkbox:after {
+				display: block;
+			}
+		}
+
+		/* Create a custom checkbox */
+		.checkbox {
+			position: relative;
+			height: 1.2em;
+			width: 1.2em;
+			background-color: var(--clr-white);
+			border-radius: var(--radius);
+			border: 1px solid var(--clr-grey-5);
+			display: grid;
+			place-items: center;
+
+			/* Create the checkmark/indicator (hidden when not checked) */
+			&:after {
+				content: '';
+				display: none;
+
+				width: 0.4em;
+				height: 0.8em;
+				border: solid var(--clr-black);
+				border-width: 0 0.2em 0.2em 0;
+				-webkit-transform: rotate(45deg);
+				-ms-transform: rotate(45deg);
+				transform: rotate(45deg);
+			}
+		}
+
+		/* On mouse-over, add a grey background color */
+		&:hover input ~ .checkbox {
+			background-color: var(--clr-grey-10);
+		}
+	}
+
 	.all-btn {
 		display: flex;
 		align-items: center;
@@ -193,14 +243,6 @@ const Wrapper = styled.section`
 	}
 	.price {
 		margin-bottom: 0.25rem;
-	}
-	.shipping {
-		display: grid;
-		grid-template-columns: auto 1fr;
-		align-items: center;
-		text-transform: capitalize;
-		column-gap: 0.5rem;
-		font-size: 1rem;
 	}
 	.clear-btn {
 		background: var(--clr-red-dark);
