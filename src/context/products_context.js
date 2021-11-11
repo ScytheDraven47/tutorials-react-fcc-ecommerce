@@ -14,7 +14,6 @@ import {
 } from '../actions'
 
 const initialState = {
-	cartTotal: 12,
 	isSidebarOpen: false,
 	products_loading: false,
 	products_error: false,
