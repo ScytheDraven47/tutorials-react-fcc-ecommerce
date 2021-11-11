@@ -120,6 +120,7 @@ const filter_reducer = (state, action) => {
 			}
 		case FILTER_PRODUCTS:
 			const {
+				all_products,
 				filters: {
 					text: fName,
 					category: fCategory,
@@ -128,12 +129,11 @@ const filter_reducer = (state, action) => {
 					price: fPrice,
 					shipping: fShipping,
 				},
-				all_products: products_to_filter,
 			} = state
 
 			return {
 				...state,
-				filtered_products: [...products_to_filter].filter((product) => {
+				filtered_products: [...all_products].filter((product) => {
 					const { name, category, company, colors, price, shipping } =
 						product
 					if (!name.includes(fName)) return false
