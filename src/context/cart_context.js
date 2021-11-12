@@ -31,12 +31,14 @@ export const CartProvider = ({ children }) => {
 		dispatch({ type: ADD_TO_CART, payload: { id, color, amount, product } })
 	}
 
-	const removeItems = (id) => {
+	const removeItem = (id) => {
 		dispatch({ type: REMOVE_CART_ITEM, payload: { id } })
 	}
+
 	const incrementAmount = (id, value) => {
 		dispatch({ type: INCREMENT_CART_ITEM_AMOUNT, payload: { id, value } })
 	}
+
 	const clearCart = () => {
 		dispatch({ type: CLEAR_CART })
 	}
@@ -46,7 +48,7 @@ export const CartProvider = ({ children }) => {
 			value={{
 				...state,
 				addToCart,
-				removeItems,
+				removeItem,
 				incrementAmount,
 				clearCart,
 			}}

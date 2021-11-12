@@ -37,15 +37,20 @@ const cart_reducer = (state, action) => {
 		case INCREMENT_CART_ITEM_AMOUNT:
 			return {
 				...state,
-				cart: state.cart.map((item) => {
-					if (item.id === action.payload.id) {
-						return {
-							...item,
-							amount: item.amount + action.payload.value,
+				cart: state.cart
+					.map((item) => {
+						if (item.id === action.payload.id) {
+							return {
+								...item,
+								amount: Math.min(
+									item.amount + action.payload.value,
+									item.max
+								),
+							}
 						}
-					}
-					return item
-				}),
+						return item
+					})
+					.filter((item) => item.amount > 0),
 			}
 		case REMOVE_CART_ITEM:
 			return {
