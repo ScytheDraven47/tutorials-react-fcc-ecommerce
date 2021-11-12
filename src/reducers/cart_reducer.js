@@ -50,7 +50,7 @@ const cart_reducer = (state, action) => {
 			}
 		}
 		case INCREMENT_CART_ITEM_AMOUNT: {
-			const { id, value } = action.payload.id
+			const { id, value } = action.payload
 			return {
 				...state,
 				cart: state.cart
