@@ -8,8 +8,10 @@ import {
 	COUNT_CART_TOTALS,
 } from '../actions'
 
+const getLocalStorageCart = () => JSON.parse(localStorage.getItem('cart')) || []
+
 const initialState = {
-	cart: [],
+	cart: getLocalStorageCart(),
 	total_items: 0,
 	total_amount: 0,
 	shipping_fee: 599,
@@ -21,6 +23,7 @@ export const CartProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(reducer, initialState)
 
 	useEffect(() => {
+		localStorage.setItem('cart', JSON.stringify(state.cart))
 		dispatch({ type: COUNT_CART_TOTALS })
 	}, [state.cart])
 
