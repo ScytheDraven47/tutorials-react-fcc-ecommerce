@@ -8,7 +8,7 @@ import {
 
 const cart_reducer = (state, action) => {
 	switch (action.type) {
-		case ADD_TO_CART:
+		case ADD_TO_CART: {
 			const {
 				id,
 				color,
@@ -48,36 +48,37 @@ const cart_reducer = (state, action) => {
 					},
 				],
 			}
-		case INCREMENT_CART_ITEM_AMOUNT:
+		}
+		case INCREMENT_CART_ITEM_AMOUNT: {
+			const { id, value } = action.payload.id
 			return {
 				...state,
 				cart: state.cart
 					.map((item) => {
-						if (item.id === action.payload.id)
+						if (item.id === id)
 							return {
 								...item,
-								amount: Math.min(
-									item.amount + action.payload.value,
-									item.max
-								),
+								amount: Math.min(item.amount + value, item.max),
 							}
 						return item
 					})
 					.filter((item) => item.amount > 0),
 			}
-		case REMOVE_CART_ITEM:
+		}
+		case REMOVE_CART_ITEM: {
+			const { id } = action.payload
 			return {
 				...state,
-				cart: state.cart.filter(
-					(item) => item.id !== action.payload.id
-				),
+				cart: state.cart.filter((item) => item.id !== id),
 			}
-		case CLEAR_CART:
+		}
+		case CLEAR_CART: {
 			return {
 				...state,
 				cart: [],
 			}
-		case COUNT_CART_TOTALS:
+		}
+		case COUNT_CART_TOTALS: {
 			const { total_items, total_amount } = state.cart.reduce(
 				(acc, item) => ({
 					total_items: acc.total_items + item.amount,
@@ -90,6 +91,7 @@ const cart_reducer = (state, action) => {
 				total_items,
 				total_amount,
 			}
+		}
 		default:
 			throw new Error(`No Matching "${action.type}" - action type`)
 	}
