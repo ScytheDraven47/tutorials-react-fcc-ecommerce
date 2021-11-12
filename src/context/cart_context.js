@@ -27,7 +27,7 @@ export const CartProvider = ({ children }) => {
 		dispatch({ type: COUNT_CART_TOTALS })
 	}, [state.cart])
 
-	const addToCart = (id, color, amount, product) => {
+	const addItem = (id, color, amount, product) => {
 		dispatch({ type: ADD_TO_CART, payload: { id, color, amount, product } })
 	}
 
@@ -47,7 +47,7 @@ export const CartProvider = ({ children }) => {
 		<CartContext.Provider
 			value={{
 				...state,
-				addToCart,
+				addItem,
 				removeItem,
 				incrementAmount,
 				clearCart,
