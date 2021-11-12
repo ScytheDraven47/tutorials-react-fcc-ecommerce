@@ -9,37 +9,51 @@ import {
 const cart_reducer = (state, action) => {
 	switch (action.type) {
 		case ADD_TO_CART:
-			const { id, color, amount, product } = action.payload
-			const tempItem = state.cart.find((item) => item.id === id + color)
-			if (tempItem) {
-				const tempCart = state.cart.map((item) => {
-					if (item.id === id + color) {
-						return {
-							...item,
-							amount: Math.min(item.amount + amount, item.max),
-						}
-					}
-					return item
-				})
-				return { ...state, cart: tempCart }
-			} else {
-				const newItem = {
-					id: id + color,
-					name: product.name,
-					color,
-					amount,
-					image: product.images[0].url,
-					price: product.price,
-					max: product.stock,
+			const {
+				id,
+				color,
+				amount,
+				product: { name, price, images, stock: max },
+			} = action.payload
+			const itemId = id.toString().concat(color)
+
+			const isInCart = state.cart.find((item) => item.id === itemId)
+			if (isInCart)
+				return {
+					...state,
+					cart: state.cart.map((item) => {
+						if (item.id === itemId)
+							return {
+								...item,
+								amount: Math.min(
+									item.amount + amount,
+									item.max
+								),
+							}
+						return item
+					}),
 				}
-				return { ...state, cart: [...state.cart, newItem] }
+			return {
+				...state,
+				cart: [
+					...state.cart,
+					{
+						id: itemId,
+						max,
+						name,
+						color,
+						price,
+						amount,
+						image: images[0].url,
+					},
+				],
 			}
 		case INCREMENT_CART_ITEM_AMOUNT:
 			return {
 				...state,
 				cart: state.cart
 					.map((item) => {
-						if (item.id === action.payload.id) {
+						if (item.id === action.payload.id)
 							return {
 								...item,
 								amount: Math.min(
@@ -47,7 +61,6 @@ const cart_reducer = (state, action) => {
 									item.max
 								),
 							}
-						}
 						return item
 					})
 					.filter((item) => item.amount > 0),
