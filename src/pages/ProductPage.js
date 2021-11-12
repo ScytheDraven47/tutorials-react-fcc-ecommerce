@@ -26,6 +26,7 @@ const ProductPage = () => {
 
 	useEffect(() => {
 		fetchProduct(`${product_url}${id}`)
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
 	useEffect(() => {
@@ -36,6 +37,7 @@ const ProductPage = () => {
 			}, 3000)
 		}
 		return () => clearTimeout(errorTimeout)
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isError])
 
 	if (isLoading) return <Loading />

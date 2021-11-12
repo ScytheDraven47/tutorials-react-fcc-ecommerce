@@ -7,7 +7,6 @@ import {
 	UPDATE_FILTERS,
 	FILTER_PRODUCTS,
 	CLEAR_FILTERS,
-	TOGGLE_CART_ITEM_AMOUNT,
 } from '../actions'
 import { VIEW_TYPES, SORT_TYPES } from '../utils/constants'
 
