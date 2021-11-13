@@ -84,8 +84,8 @@ const CheckoutForm = () => {
 					setError(null)
 					setProcessing(false)
 					setIsSuccess(true)
-					clearCart()
 					setTimeout(() => {
+						clearCart()
 						history.push('/')
 					}, 10000)
 				}
